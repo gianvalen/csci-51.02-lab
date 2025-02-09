@@ -1,4 +1,4 @@
-// Jade Connery B. Ramos ()
+// Jade Connery B. Ramos (225198)
 // Rafael Angelo A. Sese (225807)
 // Gian Carlo D. Valencia (226584)
 // 3 BS CS
@@ -63,7 +63,7 @@ struct IntStack {
     // displayStack() to display the contents of the stack
     void displayStack() {
         IntNode* current = top;
-        cout << "Stack contents (top to bottom): ";
+        cout << "Stack contents from top to bottom: ";
         while (current != nullptr) {
             cout << current->number << " ";
             current = current->next; // The next node is now the "current"
