@@ -1,10 +1,29 @@
+// Jade Connery B. Ramos (225198)
+// Rafael Angelo A. Sese (225807)
+// Gian Carlo D. Valencia (226584)
+// 3 BS CS
+// CSCI 51.02-F
+
+// I hereby attest to the truth of the following facts:
+
+// I have not discussed the C++ code in my program with anyone
+// other than my instructor or the teaching assistants assigned to this course.
+// I have not used C++ code obtained from another student, or
+// any other unauthorized source, whether modified or unmodified.
+// If any C++ code or documentation used in my program was
+// obtained from another source, it has been clearly noted with citations in the
+// comments of my program.
+
 #include <iostream>
 using namespace std;
 
 int multiply(int x, int factor) {
+    // Take the smaller number as factor for less iterations in CASE 3
+    if (x < factor) {
+        swap(x, factor);
+    }
     // CASE 1: Factor is 0
     if (factor == 0) {
-        cout << "CASE 1" << endl; 
         return 0;
     }
     // Store sign and work with absolute value
@@ -13,7 +32,6 @@ int multiply(int x, int factor) {
 
     // CASE 2: Factor is a power of 2
     if ((factor & (factor - 1)) == 0) { // & = bitwise AND
-        cout << "CASE 2" << endl;
         int shift = 0;
         // Find the smallest power of 2 that is greater than or equal to the factor
         while ((1 << shift) < factor) { 
@@ -26,12 +44,11 @@ int multiply(int x, int factor) {
             return (x << shift);  
         }
     }
+
     // CASE 3: Factor is a sum of powers of 2
-    // Try to express factor as a sum of powers of 2
     int result = 0, shift = 0;
     int tempFactor = factor;
 
-    cout << "CASE 3" << endl;
     while (tempFactor > 0) {
         if (tempFactor & 1) { // If current bit is set
             result += (x << shift);
