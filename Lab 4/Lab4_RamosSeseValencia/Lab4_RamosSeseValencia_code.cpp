@@ -30,22 +30,7 @@ int multiply(int x, int factor) {
     bool isNegative = (factor < 0);
     factor = abs(factor);
 
-    // CASE 2: Factor is a power of 2
-    if ((factor & (factor - 1)) == 0) { // & = bitwise AND
-        int shift = 0;
-        // Find the smallest power of 2 that is greater than or equal to the factor
-        while ((1 << shift) < factor) { 
-            shift++;  
-        }
-        // Perform the shift operation and adjust for negativity if needed
-        if (isNegative) {  
-            return -(x << shift);  
-        } else {  
-            return (x << shift);  
-        }
-    }
-
-    // CASE 3: Factor is a sum of powers of 2
+    // CASE 2: Factor is a sum of powers of 2
     int result = 0, shift = 0;
     int tempFactor = factor;
 
