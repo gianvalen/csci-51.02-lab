@@ -1,17 +1,18 @@
 # Lab 6: Concurrent Processes created by Jade Ramos, Rafael Sese, and Gian Valencia
 
 ## Description
-This program implements a Manhattan Distance function that uses a combination of absolute value, subtraction, and addition. The code includes:
-- A Manhattan Distance function
-- A main function to demonstrate the Manhattan Distance function
+This program creates a parent and child process using fork(). The parent process continuously prints the current date and time every 10 seconds, while the child process launches the xclock program using execvp(). The code includes:
+- A function for displaying time
+- A child process that replaces itself with xclock
+- A parent process that prints a message every third iteration
 
 ## How to Run
 1. Compile the program using: 
 
-g++ -o Lab5 Lab5_RamosSeseValencia_code.cpp
+g++ -o Lab6 Lab6_RamosSeseValencia_code.cpp
 
 2. Run the executable:
 
-./Lab5
+./Lab6
 
-3. In the terminal, enter the value for test cases, number of points, the x y z coordinates of each point for each test case.
+3. Perform ctrl + C to terminate.
