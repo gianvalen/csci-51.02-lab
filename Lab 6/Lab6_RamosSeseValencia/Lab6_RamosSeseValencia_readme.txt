@@ -1,7 +1,7 @@
 # Lab 6: Concurrent Processes created by Jade Ramos, Rafael Sese, and Gian Valencia
 
 ## Description
-This program creates a parent and child process using fork(). The parent process continuously prints the current date and time every 10 seconds, while the child process launches the xclock program using execvp(). The code includes:
+This program creates a parent and child process using fork(). The parent process continuously prints the current date and time every 10 seconds, while the child process launches the xclock program using execl(). The code includes:
 - A function for displaying time
 - A child process that replaces itself with xclock
 - A parent process that prints a message every third iteration

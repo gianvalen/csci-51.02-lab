@@ -47,17 +47,13 @@ int main() {
     // child process
     if (pid == 0) {
         cout << "Child process started, launching xclock..." << endl;
-
-        // First argument is the name of the program, second argument is NULL
-        char *args[] = { (char*)"myXclock", (char*)NULL }; 
         
         // Replace the child process with xclock
-        execvp("/usr/bin/xclock", args); 
-        
-        // If execvp() fails, print an error and exit
-        perror("execvp failed"); 
-        exit(1);
-    } 
+        if (execl("/usr/bin/xclock", "myXclock", NULL) == -1) {
+            cout << "execl failed" << endl;
+            exit(1);
+        }
+    }
 
     // parent process
     else {
