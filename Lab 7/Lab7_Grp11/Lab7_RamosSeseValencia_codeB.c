@@ -1,3 +1,19 @@
+// Jade Connery B. Ramos (225198)
+// Rafael Angelo A. Sese (225807)
+// Gian Carlo D. Valencia (226584)
+// 3 BS CS
+// CSCI 51.02-F
+
+// I hereby attest to the truth of the following facts:
+
+// I have not discussed the C++ code in my program with anyone
+// other than my instructor or the teaching assistants assigned to this course.
+// I have not used C++ code obtained from another student, or
+// any other unauthorized source, whether modified or unmodified.
+// If any C++ code or documentation used in my program was
+// obtained from another source, it has been clearly noted with citations in the
+// comments of my program.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -14,54 +30,49 @@ typedef struct {
 } ThreadArg;
 
 // Thread function to compute the series terms
-void* compute_terms(void *arg) {
-    // Cast argument to access both thread_id and N
+void* sin_taylor(void *arg) {
     ThreadArg *thread_arg = (ThreadArg*)arg;
     int thread_id = thread_arg->thread_id;
     int N = thread_arg->N;
 
+    // Set every term's initial sum to 0. This will be modified later on once computation is complete
     long double term_sum = 0.0;
     int n = thread_id;
 
-    long double power_x = 1.0;    // x^(2n+1)
-    long double factorial = 1.0;  // (2n+1)!
-
-    // Compute terms for the thread's index
     while (1) {
-        // Print which thread is working
-        printf("Thread %d: Computing term for n=%d\n", thread_id, n);
-        
-        // Sleep for 1 second to simulate work and allow for parallel execution observation
+        // Tracker
+        printf("Thread %d: Computing term for n=%d with N=%d\n", thread_id, n, N);
         sleep(1);
 
-        // Increment power of x (x^(2n+1)) and factorial (factorial of (2n+1))
-        if (n > thread_id) {
-            power_x *= x * x; // Update power_x to be x^(2n+1)
-            factorial *= (2 * n) * (2 * n + 1); // Update factorial for (2n+1)!
-        }
+        // Compute for term n
+        int exp = 2 * n + 1;
+        long double numerator = powl(x, exp);       // x^(2n+1)
+        long double denominator = tgammal(exp + 1); // (2n+1)!
+        long double term = numerator / denominator;
 
-        // Calculate the current term using the running power_x and factorial
-        long double term = power_x / factorial;
-        
-        // Check if the absolute value of the term is sufficiently small
-        if (fabsl(term) < 1e-5) {
+        // If computed term is "insignificant enough", end while loop
+        if ((term < 0 ? -term : term) < 1e-16) {
             break;
         }
 
-        // If the term is even index, add it, otherwise subtract it
+        // Even terms are positive, Odd terms are negative
         if (n % 2 == 0) {
             term_sum += term;
         } else {
             term_sum -= term;
         }
 
-        // Move to the next term (i.e., increment the thread's specific term index by N)
+        // Move to the thread's next term to compute.
+        // For example, if the are 4 threads, thread 0 will compute for n = 0, 4, 8, 12...
         n += N;
     }
 
-    sum[thread_id] = term_sum; // Save the partial sum for this thread
+    // Store term_sum in the sum array
+    sum[thread_id] = term_sum;
+
     printf("Thread %d: Finished calculating terms, partial sum = %.15Lf\n", thread_id, term_sum);
-    free(arg); // Free memory allocated for the thread argument
+    free(arg);
+
     return NULL;
 }
 
@@ -69,10 +80,9 @@ int main(int argc, char *argv[]) {
 
     // Make sure to parse input arguments
     int N = atoi(argv[1]); // Number of threads
-    x = strtold(argv[2], NULL); // Argument X for the sin function (long double)
+    x = strtold(argv[2], NULL); // Argument X for the sin function
 
-
-    // Allocate memory for the sum array
+    // Array to store sums
     sum = malloc(sizeof(long double) * N);
 
     // Array to store thread IDs (needed to pass index to each thread)
@@ -80,13 +90,16 @@ int main(int argc, char *argv[]) {
 
     // Create threads
     for (int i = 0; i < N; i++) {
-        int *arg = malloc(sizeof(int));
-        *arg = i;
+        ThreadArg *arg = malloc(sizeof(ThreadArg));
 
-        pthread_create(&threads[i], NULL, compute_terms, arg);
+        // Assign values to struct's members
+        arg->thread_id = i;
+        arg->N = N;
+
+        pthread_create(&threads[i], NULL, sin_taylor, arg);
     }
 
-    // Wait for all threads to complete
+    // Wait for all threads to finish
     for (int i = 0; i < N; i++) {
         pthread_join(threads[i], NULL);
     }
@@ -98,6 +111,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Compare with the built-in sinl(x) function
+    printf("\nComparisons\n");
     printf("Calculated sin(x) = %.15Lf\n", final_sum);
     printf("Built-in sinl(x) = %.15Lf\n", sinl(x));
 
