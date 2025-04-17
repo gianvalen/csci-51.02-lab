@@ -1,0 +1,2 @@
+This is sample text.
+Check "copy.txt" to see if it's the same.
