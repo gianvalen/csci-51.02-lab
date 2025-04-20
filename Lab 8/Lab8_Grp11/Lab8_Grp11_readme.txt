@@ -16,4 +16,6 @@ g++ -o consumer Lab8_Grp11_codeConsumer.cpp
 
 ./producer input.txt 64 & ./consumer copy.txt 64
 
+Note: The commands can also be ran on separate terminals
+
 3. Check the output file if it has the same contents
