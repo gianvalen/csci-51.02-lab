@@ -1,3 +1,19 @@
+// Jade Connery B. Ramos (225198)
+// Rafael Angelo A. Sese (225807)
+// Gian Carlo D. Valencia (226584)
+// 3 BS CS
+// CSCI 51.01-B
+
+// I hereby attest to the truth of the following facts:
+
+// I have not discussed the C++ code in my program with anyone
+// other than my instructor or the teaching assistants assigned to this course.
+// I have not used C++ code obtained from another student, or
+// any other unauthorized source, whether modified or unmodified.
+// If any C++ code or documentation used in my program was
+// obtained from another source, it has been clearly noted with citations in the
+// comments of my program.
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
