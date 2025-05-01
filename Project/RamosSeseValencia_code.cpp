@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <climits>
 #include <queue>
+#include <iomanip>
 using namespace std;
 
 const int MAX_PROCESSES = 100;
@@ -85,12 +86,13 @@ void generateMetrics(Process p[], int count, int totalTime, int cpuBusy, ofstrea
         outFile << "Response Time = " << response << "ns\n";
     }
 
-    outFile << "CPU Utilization = " << (cpuBusy * 100) / totalTime << "%\n";
+    outFile << std::fixed << std::setprecision(2);
+    outFile << "CPU Utilization = " << (cpuBusy * 100.0) / totalTime << "%\n";
     outFile << "Throughput = " << count << " / " << totalTime
             << " = " << (float)count / totalTime << " processes/ns\n";
-    outFile << "Average Waiting Time = " << totalWaiting / count << "ns\n";
-    outFile << "Average Turnaround Time = " << totalTurnaround / count << "ns\n";
-    outFile << "Average Response Time = " << totalResponse / count << "ns\n";
+    outFile << "Average Waiting Time = " << (float)totalWaiting / count << "ns\n";
+    outFile << "Average Turnaround Time = " << (float)totalTurnaround / count << "ns\n";
+    outFile << "Average Response Time = " << (float)totalResponse / count << "ns\n";
 }
 
 // Function to run the FCFS scheduling algorithm
